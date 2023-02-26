@@ -16,9 +16,7 @@ def merge_two_sorted_lists(a,b,arr):
     len_a = len(a)
     len_b = len(b)
 
-    k = 0
-    j = 0
-    i = 0
+    i = j = k = 0
 
     while i < len_a and j < len_b:
         if a[i] <= b[j]:
@@ -41,13 +39,16 @@ def merge_two_sorted_lists(a,b,arr):
 
 if __name__ == '__main__':
     test_cases = [
-        [17, 51],
+        [90, 29, 53],
         [],
-        [52, 31, 28],
-        [47, 50, 61, 43],
-        [65]
+        [68, 35, 92, 30],
+        [89, 70],
+        [23]
     ]
 
     for arr in test_cases:
         merge_sort(arr)
         print(arr)
+
+num_sort = [17, 51, 52, 31, 28, 47, 50, 61, 43, 65]
+merge_sort(num_sort)
