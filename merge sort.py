@@ -1,51 +1,52 @@
-# implementation of quick sort in python using hoare partition scheme
+def merge_sort(arr):
+    if len(arr) <= 1:
+        return
 
-def swap(a, b, arr):
-    if a!=b:
-        tmp = arr[a]
-        arr[a] = arr[b]
-        arr[b] = tmp
+    mid = len(arr)//2
 
-def quick_sort(elements, start, end):
-    if start < end:
-        pi = partition(elements, start, end)
-        quick_sort(elements, start, pi-1)
-        quick_sort(elements, pi+1, end)
+    left = arr[:mid]
+    right = arr[mid:]
 
-def partition(elements, start, end):
-    pivot_index = start
-    pivot = elements[pivot_index]
+    merge_sort(left)
+    merge_sort(right)
 
-    while start < end:
-        while start < len(elements) and elements[start] <= pivot:
-            start+=1
+    merge_two_sorted_lists(left, right, arr)
 
-        while elements[end] > pivot:
-            end-=1
+def merge_two_sorted_lists(a,b,arr):
+    len_a = len(a)
+    len_b = len(b)
 
-        if start < end:
-            swap(start, end, elements)
+    i = j = k = 0
 
-    swap(pivot_index, end, elements)
+    while i < len_a and j < len_b:
+        if a[i] <= b[j]:
+            arr[k] = a[i]
+            i+=1
+        else:
+            arr[k] = b[j]
+            j+=1
+        k+=1
 
-    return end
+    while i < len_a:
+        arr[k] = a[i]
+        i+=1
+        k+=1
 
+    while j < len_b:
+        arr[k] = b[j]
+        j+=1
+        k+=1
 
 if __name__ == '__main__':
-    elements = [90, 29, 53, 68, 35, 92, 30, 89, 70, 23]
-    quick_sort(elements, 0, len(elements)-1)
-    print(elements)
-
-    tests = [
-        [90, 29, 53, 68, 35, 92, 30, 89, 70, 23],
-        [53, 68, 35, 92],
-        [30, 89, 70],
-        [23],
+    test_cases = [
+        [90, 29, 53],
         [],
-        [90, 29, 53, 68]
+        [68, 35, 92, 30],
+        [89, 70],
+        [23]
     ]
 
-    for elements in tests:
-        quick_sort(elements, 0, len(elements)-1)
-        print(f'sorted array: {elements}')
+    for arr in test_cases:
+        merge_sort(arr)
+        print(arr)
 
