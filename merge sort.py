@@ -1,54 +1,51 @@
-def merge_sort(arr):
-    if len(arr) <= 1:
-        return
+# implementation of quick sort in python using hoare partition scheme
 
-    mid = len(arr)//2
+def swap(a, b, arr):
+    if a!=b:
+        tmp = arr[a]
+        arr[a] = arr[b]
+        arr[b] = tmp
 
-    left = arr[:mid]
-    right = arr[mid:]
+def quick_sort(elements, start, end):
+    if start < end:
+        pi = partition(elements, start, end)
+        quick_sort(elements, start, pi-1)
+        quick_sort(elements, pi+1, end)
 
-    merge_sort(left)
-    merge_sort(right)
+def partition(elements, start, end):
+    pivot_index = start
+    pivot = elements[pivot_index]
 
-    merge_two_sorted_lists(left, right, arr)
+    while start < end:
+        while start < len(elements) and elements[start] <= pivot:
+            start+=1
 
-def merge_two_sorted_lists(a,b,arr):
-    len_a = len(a)
-    len_b = len(b)
+        while elements[end] > pivot:
+            end-=1
 
-    i = j = k = 0
+        if start < end:
+            swap(start, end, elements)
 
-    while i < len_a and j < len_b:
-        if a[i] <= b[j]:
-            arr[k] = a[i]
-            i+=1
-        else:
-            arr[k] = b[j]
-            j+=1
-        k+=1
+    swap(pivot_index, end, elements)
 
-    while i < len_a:
-        arr[k] = a[i]
-        i+=1
-        k+=1
+    return end
 
-    while j < len_b:
-        arr[k] = b[j]
-        j+=1
-        k+=1
 
 if __name__ == '__main__':
-    test_cases = [
-        [90, 29, 53],
+    elements = [90, 29, 53, 68, 35, 92, 30, 89, 70, 23]
+    quick_sort(elements, 0, len(elements)-1)
+    print(elements)
+
+    tests = [
+        [90, 29, 53, 68, 35, 92, 30, 89, 70, 23],
+        [53, 68, 35, 92],
+        [30, 89, 70],
+        [23],
         [],
-        [68, 35, 92, 30],
-        [89, 70],
-        [23]
+        [90, 29, 53, 68]
     ]
 
-    for arr in test_cases:
-        merge_sort(arr)
-        print(arr)
+    for elements in tests:
+        quick_sort(elements, 0, len(elements)-1)
+        print(f'sorted array: {elements}')
 
-num_sort = [17, 51, 52, 31, 28, 47, 50, 61, 43, 65]
-merge_sort(num_sort)
